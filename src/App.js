@@ -12,7 +12,7 @@ class App extends React.Component {
     };
 
     // Search Github Users
-    searchUser = async text => {
+    searchUsers = async text => {
         this.setState({ loading: true });
 
         const response = await axios.get(
@@ -24,16 +24,24 @@ class App extends React.Component {
         this.setState({ users: response.data.items, loading: false });
     };
 
+    // Clear users from state
+    clearUsers = () => {
+        this.setState({ users: [], loading: false });
+    };
+
     render() {
+        const { users, loading } = this.state;
+
         return (
             <div className='App'>
                 <Navbar title='Github Finder' icon='fab fa-github' />
                 <div className='container'>
-                    <Search searchUser={this.searchUser} />
-                    <Users
-                        loading={this.state.loading}
-                        users={this.state.users}
+                    <Search
+                        searchUsers={this.searchUsers}
+                        clearUsers={this.clearUsers}
+                        showClear={users.length > 0 ? true : false}
                     />
+                    <Users loading={loading} users={users} />
                 </div>
             </div>
         );

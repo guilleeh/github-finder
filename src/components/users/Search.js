@@ -9,7 +9,7 @@ class Search extends Component {
     //If you use an arrow function, you won't have to use this.onSubmit.bind(this)
     onSubmit = e => {
         e.preventDefault();
-        this.props.searchUser(this.state.text);
+        this.props.searchUsers(this.state.text);
         this.setState({ text: '' });
     };
 
@@ -19,6 +19,8 @@ class Search extends Component {
     };
 
     render() {
+        const { showClear, clearUsers } = this.props;
+
         return (
             <div>
                 <form onSubmit={this.onSubmit} className='form'>
@@ -35,13 +37,23 @@ class Search extends Component {
                         className='btn btn-dark btn-block'
                     />
                 </form>
+                {showClear && (
+                    <button
+                        className='btn btn-light btn-block'
+                        onClick={clearUsers}
+                    >
+                        Clear
+                    </button>
+                )}
             </div>
         );
     }
 }
 
 Search.propTypes = {
-    searchUser: PropTypes.func.isRequired
+    searchUsers: PropTypes.func.isRequired,
+    clearUser: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
 };
 
 export default Search;
