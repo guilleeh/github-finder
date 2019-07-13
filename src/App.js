@@ -58,7 +58,7 @@ class App extends React.Component {
 
     // Clear users from state
     clearUsers = () => {
-        this.setState({ user: [], loading: false });
+        this.setState({ users: [], loading: false });
     };
 
     //Set an alert
