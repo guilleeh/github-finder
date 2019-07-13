@@ -56,7 +56,7 @@ class Search extends Component {
 
 Search.propTypes = {
     searchUsers: PropTypes.func.isRequired,
-    clearUser: PropTypes.func.isRequired,
+    clearUsers: PropTypes.func.isRequired,
     showClear: PropTypes.bool.isRequired,
     setAlert: PropTypes.func.isRequired
 };
