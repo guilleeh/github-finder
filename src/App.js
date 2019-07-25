@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import User from './components/users/User';
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
-import User from './components/users/User';
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GithubState from './context/github/GithubState';
 import './App.css';
 
@@ -17,66 +17,68 @@ const App = () => {
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState(null);
 
-    // Search Github Users
+    //Search GitHub Users
     const searchUsers = async text => {
         setLoading(true);
 
-        const response = await axios.get(
+        const respon = await axios.get(
             `https://api.github.com/search/users?q=${text}&client_id=${
                 process.env.REACT_APP_GITHUB_CLIENT_ID
             }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
         );
 
-        setUsers(response.data.items);
+        setUsers(respon.data.items);
         setLoading(false);
     };
 
-    // Get single user
+    //Get single GitHub User
     const getUser = async username => {
         setLoading(true);
 
-        const response = await axios.get(
+        const respon = await axios.get(
             `https://api.github.com/users/${username}?client_id=${
                 process.env.REACT_APP_GITHUB_CLIENT_ID
             }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
         );
 
-        setUser(response.data);
+        setUser(respon.data);
         setLoading(false);
+        //this.setState({ user: respon.data, loading: false });
     };
 
+    //Get User Repos
     const getUserRepos = async username => {
         setLoading(true);
 
-        const response = await axios.get(
+        const respon = await axios.get(
             `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${
                 process.env.REACT_APP_GITHUB_CLIENT_ID
             }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
         );
 
-        setRepos(response.data);
+        setRepos(respon.data);
         setLoading(false);
+        //this.setState({ repos: respon.data, loading: false });
     };
 
-    // Clear users from state
+    //Cleaqr Users from State
     const clearUsers = () => {
         setUsers([]);
         setLoading(false);
     };
 
-    //Set an alert
+    //Set Alert
     const showAlert = (msg, type) => {
         setAlert({ msg, type });
 
-        //allows for the alert to disappear after 5 seconds!
-        setTimeout(() => setAlert(null), 5000);
+        setTimeout(() => setAlert(null), 5000); //Set a timer to clear the alert state after 5sec
     };
 
     return (
         <GithubState>
             <Router>
                 <div className='App'>
-                    <Navbar title='Github Finder' icon='fab fa-github' />
+                    <Navbar />
                     <div className='container'>
                         <Alert alert={alert} />
                         <Switch>
@@ -86,7 +88,6 @@ const App = () => {
                                 render={props => (
                                     <Fragment>
                                         <Search
-                                            searchUsers={searchUsers}
                                             clearUsers={clearUsers}
                                             showClear={
                                                 users.length > 0 ? true : false

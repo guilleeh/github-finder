@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import GithubContext from '../../context/github/githubContext';
 
-const Search = ({ searchUsers, showClear, clearUsers, setAlert }) => {
+const Search = ({ showClear, clearUsers, setAlert }) => {
+    const githubContext = useContext(GithubContext);
     const [text, setText] = useState('');
 
     //If you use an arrow function, you won't have to use this.onSubmit.bind(this)
@@ -10,7 +12,7 @@ const Search = ({ searchUsers, showClear, clearUsers, setAlert }) => {
         if (text === '') {
             setAlert('Please enter a username', 'light');
         } else {
-            searchUsers(text);
+            githubContext.searchUsers(text);
             setText('');
         }
     };
@@ -49,7 +51,6 @@ const Search = ({ searchUsers, showClear, clearUsers, setAlert }) => {
 };
 
 Search.propTypes = {
-    searchUsers: PropTypes.func.isRequired,
     clearUsers: PropTypes.func.isRequired,
     showClear: PropTypes.bool.isRequired,
     setAlert: PropTypes.func.isRequired
