@@ -11,40 +11,9 @@ import GithubState from './context/github/GithubState';
 import './App.css';
 
 const App = () => {
-    const [users, setUsers] = useState([]);
-    const [user, setUser] = useState({});
     const [repos, setRepos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState(null);
-
-    //Search GitHub Users
-    const searchUsers = async text => {
-        setLoading(true);
-
-        const respon = await axios.get(
-            `https://api.github.com/search/users?q=${text}&client_id=${
-                process.env.REACT_APP_GITHUB_CLIENT_ID
-            }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-        );
-
-        setUsers(respon.data.items);
-        setLoading(false);
-    };
-
-    //Get single GitHub User
-    const getUser = async username => {
-        setLoading(true);
-
-        const respon = await axios.get(
-            `https://api.github.com/users/${username}?client_id=${
-                process.env.REACT_APP_GITHUB_CLIENT_ID
-            }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-        );
-
-        setUser(respon.data);
-        setLoading(false);
-        //this.setState({ user: respon.data, loading: false });
-    };
 
     //Get User Repos
     const getUserRepos = async username => {
@@ -59,12 +28,6 @@ const App = () => {
         setRepos(respon.data);
         setLoading(false);
         //this.setState({ repos: respon.data, loading: false });
-    };
-
-    //Cleaqr Users from State
-    const clearUsers = () => {
-        setUsers([]);
-        setLoading(false);
     };
 
     //Set Alert
@@ -87,17 +50,8 @@ const App = () => {
                                 path='/'
                                 render={props => (
                                     <Fragment>
-                                        <Search
-                                            clearUsers={clearUsers}
-                                            showClear={
-                                                users.length > 0 ? true : false
-                                            }
-                                            setAlert={showAlert}
-                                        />
-                                        <Users
-                                            loading={loading}
-                                            users={users}
-                                        />
+                                        <Search setAlert={showAlert} />
+                                        <Users />
                                     </Fragment>
                                 )}
                             />
@@ -108,11 +62,8 @@ const App = () => {
                                 render={props => (
                                     <User
                                         {...props}
-                                        getUser={getUser}
                                         getUserRepos={getUserRepos}
-                                        user={user}
                                         repos={repos}
-                                        loading={loading}
                                     />
                                 )}
                             />
