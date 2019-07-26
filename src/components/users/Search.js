@@ -1,16 +1,17 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import GithubContext from '../../context/github/githubContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Search = ({ setAlert }) => {
+const Search = () => {
     const githubContext = useContext(GithubContext);
+    const alertContext = useContext(AlertContext);
     const [text, setText] = useState('');
 
     //If you use an arrow function, you won't have to use this.onSubmit.bind(this)
     const onSubmit = e => {
         e.preventDefault();
         if (text === '') {
-            setAlert('Please enter a username', 'light');
+            alertContext.setAlert('Please enter a username', 'light');
         } else {
             githubContext.searchUsers(text);
             setText('');
@@ -49,7 +50,5 @@ const Search = ({ setAlert }) => {
         </div>
     );
 };
-
-Search.propTypes = { setAlert: PropTypes.func.isRequired };
 
 export default Search;
