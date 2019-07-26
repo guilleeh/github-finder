@@ -30,4 +30,4 @@ npm start
 
 ## Acknowledgments
 
--   [Traversy Media](https://github.com/bradtraversy) - For teaching me how to use the Context API and Hooks. Also for guiding the creating process of GitHub Finder in his React course.
+-   [Traversy Media](https://github.com/bradtraversy) - For teaching me how to use the Context API and Hooks. Also for guiding the creation process of GitHub Finder in his React course.
